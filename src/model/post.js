@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     id:{type: mongoose.Schema.Types.ObjectId},
     titulo: {type: String, require: true},
-    professor: {type: String, require: true}
+    descricao: {type: String, require: true},
 },{versionKey: false}) 
 
 // posts é a coleção, modelo é um objeto que representa uma coleção e segue as regras do schema

@@ -1,7 +1,7 @@
  import express from "express"
  import conectaNobanco from "./config/dbConnect.js"
- import post from "./model/post.js"
-import usuario from "./model/usuario.js"
+ import routes from "./routes/index.js"
+ import cors from "cors"
  
 
  const conexao = await conectaNobanco()
@@ -18,50 +18,7 @@ import usuario from "./model/usuario.js"
 
 
  const app = express()
-
- // middleware, roda requisicao e resposta passa por aqui e  o body é transformado and json
- app.use(express.json())
-
-
-
- app.get("/",(req,res) =>{
-    res.status(200).json(post)
- })
-
-
- app.get("/posts", async  (req,res) => {
-  const listaPosts = await post.find({})
-   res.status(200).json(listaPosts)
- })
-
- app.get("/usuarios", async  (req,res) => {
-  const listaPosts = await post.find({})
-   res.status(200).json(listaPosts)
- })
-
- app.get("/posts/:id", (req,res) =>{
-  const index = buscarLivro(req .params.id)
-  res.status(200).json(livros[index])
-
- })
-
-
- app.post("/posts", (req,res) =>{ 
-  livros.push(req.body)
-   res.status(201).send("livro criado com sucesso")
- })
-
- app.put("/posts/:id", (req,res) =>{
-  const index = buscarLivro(req.params.id)
-  livros[index].titulo = req.body.titulo
-  res.status(200).json(livros[index])
- })
-
-
- app.delete("/posts/:id", (req,res) =>{
-  const index = buscarLivro(req.params.id)
-  livros.splice(index,1)
-  res.status(200).send("elemento apagado")
- })
+ app.use(cors())
+ routes(app)
 
  export default app
