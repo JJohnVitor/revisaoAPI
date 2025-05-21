@@ -1,24 +1,34 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import AdminMenu from '../components/AdminMenu';
 
 export default function StudentList() {
   const navigation = useNavigation();
 
-  const alunos = [
-    { id: 1, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 2, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 3, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 4, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 5, nome: 'Nome', email: 'e-mail@email.com' },
-  ];
+  const [usuarios, setUsuario] = useState([])
+
+  // get all
+  useEffect(()=>{
+    axios.get("http://localhost:3000/usuario").then((response)=>{
+        setUsuario(response.data)})
+
+  },[])
+
+
+  const listaAluno = usuarios.filter((aluno) => aluno.tipoUsuario == "Estudante")
+
+
+
+
+
 
   return (
     <View style={styles.container}>
@@ -44,11 +54,14 @@ export default function StudentList() {
             <Text style={styles.tableHeaderCell}>Nome</Text>
             <Text style={styles.tableHeaderCell}>E-mail</Text>
           </View>
-          {alunos.map((aluno) => (
+
+
+          {listaAluno.map((aluno) => (
             <View key={aluno.id} style={styles.tableRow}>
               <Text style={styles.tableCell}>{aluno.nome}</Text>
               <Text style={styles.tableCell}>{aluno.email}</Text>
             </View>
+            
           ))}
         </View>
 

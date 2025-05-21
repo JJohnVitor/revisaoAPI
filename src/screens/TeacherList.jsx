@@ -1,24 +1,39 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import AdminMenu from '../components/AdminMenu';
-
 export default function TeacherList() {
   const navigation = useNavigation();
 
-  const professores = [
-    { id: 1, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 2, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 3, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 4, nome: 'Nome', email: 'e-mail@email.com' },
-    { id: 5, nome: 'Nome', email: 'e-mail@email.com' },
-  ];
+  // const professores = [
+  //   { id: 1, nome: 'Nome', email: 'e-mail@email.com' },
+  //   { id: 2, nome: 'Nome', email: 'e-mail@email.com' },
+  //   { id: 3, nome: 'Nome', email: 'e-mail@email.com' },
+  //   { id: 4, nome: 'Nome', email: 'e-mail@email.com' },
+  //   { id: 5, nome: 'Nome', email: 'e-mail@email.com' },
+  // ];
+
+  const [usuarios, setUsuario] = useState([])
+
+  // get all
+  useEffect(()=>{
+    axios.get("http://localhost:3000/usuario").then((response)=>{
+        setUsuario(response.data)})
+
+  },[])
+
+
+  const listaProfessor = usuarios.filter((aluno) => aluno.tipoUsuario == "Professor")
+
+
+
 
   return (
     <View style={styles.container}>
@@ -44,7 +59,7 @@ export default function TeacherList() {
             <Text style={styles.tableHeaderCell}>Nome</Text>
             <Text style={styles.tableHeaderCell}>E-mail</Text>
           </View>
-          {professores.map((prof) => (
+          {listaProfessor.map((prof) => (
             <View key={prof.id} style={styles.tableRow}>
               <Text style={styles.tableCell}>{prof.nome}</Text>
               <Text style={styles.tableCell}>{prof.email}</Text>

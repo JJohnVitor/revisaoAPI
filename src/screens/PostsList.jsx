@@ -1,23 +1,27 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
   Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import StudentMenu from '../components/StudentMenu';
 import PostCard from '../components/PostCard';
-
+import StudentMenu from '../components/StudentMenu';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 export default function PostsList() {
-  const posts = [
-    {
-      id: 1,
-      titulo: 'Título da Postagem',
-      descricao: 'Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo',
-    },
-  ];
+
+  const [posts, setPost] = useState([])
+
+  // get all
+  useEffect(()=>{
+    axios.get("http://localhost:3000/posts").then((response)=>{
+        setPost(response.data)})
+
+  },[])
+
 
   return (
     <View style={styles.container}>
@@ -35,8 +39,8 @@ export default function PostsList() {
 
           {posts.map((post) => (
             <PostCard
-              key={post.id}
-              id={post.id}
+              key={post._id}
+              id={post._id}
               titulo={post.titulo}
               descricao={post.descricao}
             />

@@ -1,14 +1,22 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
-  View,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
-export default function PostCard({ id, titulo, descricao, isAdminView = false }) {
+
+
+
+
+export default function PostCard({ idCampo, titulo, descricao, isAdminView = false, aoDeletar }) {
   const navigation = useNavigation();
+
+  const handleDeletar = (idCampo) => {
+    aoDeletar(idCampo)
+  };
 
   return (
     <View style={styles.card}>
@@ -17,7 +25,7 @@ export default function PostCard({ id, titulo, descricao, isAdminView = false })
 
       <TouchableOpacity
         onPress={() => navigation.navigate('PostDetails', {
-          id,
+          idCampo,
           titulo,
           descricao
         })}
@@ -30,7 +38,7 @@ export default function PostCard({ id, titulo, descricao, isAdminView = false })
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => navigation.navigate('PostEdit', {
-              id,
+              idCampo,
               titulo,
               descricao
             })}
@@ -40,7 +48,8 @@ export default function PostCard({ id, titulo, descricao, isAdminView = false })
 
           <TouchableOpacity
             style={styles.deleteButton}
-            onPress={() => alert('Excluir não implementado')}
+            //onPress={() => alert("pegar o id do post e colocar na API")}
+            onPress={() => handleDeletar(idCampo)}
           >
             <Text style={styles.deleteText}>Excluir</Text>
           </TouchableOpacity>

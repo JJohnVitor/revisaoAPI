@@ -30,7 +30,7 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: true }}>
+      <Stack.Navigator initialRouteName="AdminDashboard" screenOptions={{ headerShown: true }}>
         
         {/* Acesso público */}
         <Stack.Screen

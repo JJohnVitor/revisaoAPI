@@ -14,8 +14,7 @@ import {
     View,
 } from 'react-native';
 import api from '../services/api';
-
-import {cadastrarPost} from "../services/api.js"
+import {cadastrarUsuario} from "../services/api.js"
 
 export default function RegisterScreen({ navigation }) {
   const [nome, setNome] = useState('');
@@ -26,7 +25,8 @@ export default function RegisterScreen({ navigation }) {
 
   const handleRegister = async () => {
     try {
-      await api.post('/usuario', { nome, email, senha, perfil });
+      const novoUsuario = { nome, email, senha, perfil }
+      cadastrarUsuario(novoUsuario)
       Alert.alert('Cadastro realizado com sucesso!');
       navigation.replace('Login');
     } catch (error) {
@@ -34,7 +34,6 @@ export default function RegisterScreen({ navigation }) {
       console.error(error);
     }
 
-    console.log({nome, email, senha, perfil} )
   };
 
   return (

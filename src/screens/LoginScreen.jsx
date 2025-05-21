@@ -27,7 +27,7 @@ export default function LoginScreen({ navigation }) {
       navigation.replace('PostsList');
     } catch (err) {
       Alert.alert('Erro ao fazer login', 'Verifique suas credenciais.');
-      console.error('Erro ao fazer login:', err);
+      console.error('Erro ao fazer login:', error);
     }
   };
 

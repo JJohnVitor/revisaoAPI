@@ -1,16 +1,18 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  Alert,
   Dimensions,
   ScrollView,
-  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { Link } from "react-router-dom";
 import AdminMenu from '../components/AdminMenu';
+import { cadastrarPost } from '../services/api';
 
 export default function PostCreate() {
   const navigation = useNavigation();
@@ -24,7 +26,10 @@ export default function PostCreate() {
     }
 
     // Aqui você pode chamar a API futuramente
+    const novoPost = {titulo,descricao}
+    cadastrarPost(novoPost)
     Alert.alert('Post criado com sucesso!');
+
     navigation.goBack();
   };
 
@@ -60,7 +65,6 @@ export default function PostCreate() {
             numberOfLines={6}
             textAlignVertical="top"
           />
-
           <TouchableOpacity style={styles.button} onPress={handleSalvar}>
             <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>

@@ -1,27 +1,44 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
   Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import AdminMenu from '../components/AdminMenu';
 import PostCard from '../components/PostCard';
-import { useNavigation } from '@react-navigation/native';
+import { deletarPost } from '../services/api';
 
 export default function AdminDashboard() {
   const navigation = useNavigation();
 
-  const posts = [
-    {
-      id: 1,
-      titulo: 'Título da Postagem',
-      descricao: 'Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo Descrição breve do conteúdo',
-    },
-  ];
+  const [posts, setPost] = useState([])
+
+  // get all
+  useEffect(()=>{
+    axios.get("http://localhost:3000/posts").then((response)=>{
+        setPost(response.data)})
+
+  },[])
+
+  // const excluir =  (id) => {
+  //   try {
+  //     debugger;
+  //     deletarPost(id)
+  //   } catch (error) {
+  //     Alert.alert('Erro ao cadastrar', 'Verifique os dados e tente novamente.');
+  //     console.error(error);
+  //   }
+
+  // }
+
+
+
 
   return (
     <View style={styles.container}>
@@ -47,11 +64,13 @@ export default function AdminDashboard() {
 
           {posts.map((post) => (
             <PostCard
-              key={post.id}
-              id={post.id}
+              key={post.descricao}
+              idCampo={post._id}
               titulo={post.titulo}
               descricao={post.descricao}
               isAdminView
+              aoDeletar={(id) => deletarPost(id)}
+
             />
           ))}
         </View>

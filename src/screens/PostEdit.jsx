@@ -1,34 +1,33 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  Alert,
   Dimensions,
   ScrollView,
-  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import AdminMenu from '../components/AdminMenu';
+import { atualizarPost } from '../services/api';
 
 export default function PostEdit() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { id, titulo: initialTitulo, descricao: initialDescricao } = route.params || {};
+  const {idCampo: initialId, titulo: initialTitulo, descricao: initialDescricao } = route.params || {};
 
+  const [id, setId] = useState(initialId || '');
   const [titulo, setTitulo] = useState(initialTitulo || '');
   const [descricao, setDescricao] = useState(initialDescricao || '');
 
-  const handleSalvar = () => {
-    if (!titulo || !descricao) {
-      Alert.alert('Atenção', 'Preencha todos os campos.');
-      return;
-    }
-
+  const handleSalvar = (id) => {
+    const dados = {titulo,descricao}
     // Aqui você pode integrar com sua API futuramente
+    atualizarPost(id,dados)
     Alert.alert('Post atualizado com sucesso!');
-    navigation.goBack();
+    navigation.goBack(null);
   };
 
   return (
@@ -64,7 +63,7 @@ export default function PostEdit() {
             textAlignVertical="top"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleSalvar}>
+          <TouchableOpacity style={styles.button} onPress={() => handleSalvar(initialId)}>
             <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>
         </View>
